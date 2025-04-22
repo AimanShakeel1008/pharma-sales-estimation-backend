@@ -1,9 +1,6 @@
 package com.our_pharma_corp.pharma_sales_estimation_backend.controllers;
 
-import com.our_pharma_corp.pharma_sales_estimation_backend.dtos.CompanySalesDto;
-import com.our_pharma_corp.pharma_sales_estimation_backend.dtos.DrugEstimationDTO;
-import com.our_pharma_corp.pharma_sales_estimation_backend.dtos.ResultSummaryDTO;
-import com.our_pharma_corp.pharma_sales_estimation_backend.dtos.TopDrugDto;
+import com.our_pharma_corp.pharma_sales_estimation_backend.dtos.*;
 import com.our_pharma_corp.pharma_sales_estimation_backend.services.ResultsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,6 +20,22 @@ public class ResultsController {
 
     public ResultsController(ResultsService resultsService) {
         this.resultsService = resultsService;
+    }
+
+    @GetMapping("/companies")
+    public List<String> getAvailableCompanies() {
+        return jdbc.queryForList(
+                "SELECT DISTINCT company_name FROM companies ORDER BY company_name ASC",
+                String.class
+        );
+    }
+
+    @GetMapping("/countries")
+    public List<String> getAvailableCountries() {
+        return jdbc.queryForList(
+                "SELECT DISTINCT country_name FROM countries ORDER BY country_name ASC",
+                String.class
+        );
     }
 
     @GetMapping("/quarters")
@@ -100,5 +113,22 @@ public class ResultsController {
     @GetMapping("/company-sales")
     public List<CompanySalesDto> getCompanySales(@RequestParam String quarter) {
         return resultsService.getCompanySales(quarter);
+    }
+
+    @GetMapping("/company-summary")
+    public CompanySummaryDTO getCompanySummary(@RequestParam String companyName, @RequestParam String quarter) {
+        return resultsService.getCompanySummary(companyName, quarter);
+    }
+
+    @GetMapping("/company-details")
+    public List<CompanyDrugDetailDTO> getCompanyDetails(@RequestParam String companyName, @RequestParam String quarter) {
+        return resultsService.getCompanyDetails(companyName, quarter);
+    }
+
+    @GetMapping("/country-summary")
+    public CountrySummaryDTO getCountrySummary(
+            @RequestParam String countryName,
+            @RequestParam String quarter) {
+        return resultsService.getCountrySummary(countryName, quarter);
     }
 }
