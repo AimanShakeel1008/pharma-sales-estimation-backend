@@ -1,0 +1,21 @@
+aws:
+  access-key: AKIAT4GVRVIV6G44AKFA
+  secret-key: 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
+  region: ap-south-1
+  s3:
+    bucket: pharma-sales-uploads
+
+spring:
+  datasource:
+    url: jdbc:postgresql://pharma-sales-estimation-db.cn82yuk22ctc.ap-south-1.rds.amazonaws.com:5432/pharma-sales-estimation-db
+    username: pse_master_user
+    password: pse_master_pass_1008701
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
